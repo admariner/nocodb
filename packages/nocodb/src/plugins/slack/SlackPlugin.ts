@@ -1,9 +1,6 @@
-import {
-  IWebhookNotificationAdapter,
-  XcWebhookNotificationPlugin
-} from 'nc-plugin';
-
 import Slack from './Slack';
+import type { IWebhookNotificationAdapter } from '~/types/nc-plugin';
+import { XcWebhookNotificationPlugin } from '~/types/nc-plugin';
 
 class SlackPlugin extends XcWebhookNotificationPlugin {
   private static notificationAdapter: Slack;

@@ -1,12 +1,13 @@
-import { XcActionType, XcType } from 'nc-common';
-import { XcPluginConfig } from 'nc-plugin';
-
+import { XcActionType, XcType } from 'nocodb-sdk';
 import UpCloudPlugin from './UpCloudPlugin';
+import type { XcPluginConfig } from '~/types/nc-plugin';
 
 const config: XcPluginConfig = {
   builder: UpCloudPlugin,
-  title: 'UpCloud Object Storage',
-  version: '0.0.1',
+  id: 'upcloud',
+  title: 'UpCloud',
+  recoveryTitle: 'UpCloud Object Storage',
+  version: '0.0.4',
   logo: 'plugins/upcloud.png',
   description:
     'The perfect home for your data. Thanks to the S3-compatible programmable interface,\n' +
@@ -20,29 +21,36 @@ const config: XcPluginConfig = {
         label: 'Bucket Name',
         placeholder: 'Bucket Name',
         type: XcType.SingleLineText,
-        required: true
+        required: true,
       },
       {
         key: 'endpoint',
         label: 'Endpoint',
         placeholder: 'Endpoint',
         type: XcType.SingleLineText,
-        required: true
+        required: true,
       },
       {
         key: 'access_key',
         label: 'Access Key',
         placeholder: 'Access Key',
         type: XcType.SingleLineText,
-        required: true
+        required: true,
       },
       {
         key: 'access_secret',
         label: 'Access Secret',
         placeholder: 'Access Secret',
         type: XcType.Password,
-        required: true
-      }
+        required: true,
+      },
+      {
+        key: 'acl',
+        label: 'Access Control Lists (ACL)',
+        placeholder: 'Default set to public-read',
+        type: XcType.SingleLineText,
+        required: false,
+      },
     ],
     actions: [
       {
@@ -50,21 +58,21 @@ const config: XcPluginConfig = {
         placeholder: 'Test',
         key: 'test',
         actionType: XcActionType.TEST,
-        type: XcType.Button
+        type: XcType.Button,
       },
       {
         label: 'Save',
         placeholder: 'Save',
         key: 'save',
         actionType: XcActionType.SUBMIT,
-        type: XcType.Button
-      }
+        type: XcType.Button,
+      },
     ],
     msgOnInstall:
-      'Successfully installed and attachment will be stored in UpCloud Object Storage',
-    msgOnUninstall: ''
+      'Successfully configured! Attachments will now be stored in UpCloud Object Storage.',
+    msgOnUninstall: '',
   },
-  category: 'Storage'
+  category: 'Storage',
 };
 
 export default config;

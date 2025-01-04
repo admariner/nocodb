@@ -1,12 +1,13 @@
-import { XcActionType, XcType } from 'nc-common';
-import { XcPluginConfig } from 'nc-plugin';
-
+import { XcActionType, XcType } from 'nocodb-sdk';
 import BackblazePlugin from './BackblazePlugin';
+import type { XcPluginConfig } from '~/types/nc-plugin';
 
 const config: XcPluginConfig = {
   builder: BackblazePlugin,
-  title: 'Backblaze B2',
-  version: '0.0.1',
+  id: 'backblaze',
+  title: 'Backblaze',
+  recoveryTitle: 'Backblaze B2',
+  version: '0.0.5',
   logo: 'plugins/backblaze.jpeg',
   tags: 'Storage',
   description:
@@ -19,29 +20,36 @@ const config: XcPluginConfig = {
         label: 'Bucket Name',
         placeholder: 'Bucket Name',
         type: XcType.SingleLineText,
-        required: true
+        required: true,
       },
       {
         key: 'region',
         label: 'Region',
-        placeholder: 'Region',
+        placeholder: 'e.g. us-west-001',
         type: XcType.SingleLineText,
-        required: true
+        required: true,
       },
       {
         key: 'access_key',
         label: 'Access Key',
-        placeholder: 'Access Key',
+        placeholder: 'i.e. keyID in App Keys',
         type: XcType.SingleLineText,
-        required: true
+        required: true,
       },
       {
         key: 'access_secret',
         label: 'Access Secret',
-        placeholder: 'Access Secret',
+        placeholder: 'i.e. applicationKey in App Keys',
         type: XcType.Password,
-        required: true
-      }
+        required: true,
+      },
+      {
+        key: 'acl',
+        label: 'Access Control Lists (ACL)',
+        placeholder: 'Default set to public-read',
+        type: XcType.SingleLineText,
+        required: false,
+      },
     ],
     actions: [
       {
@@ -49,21 +57,21 @@ const config: XcPluginConfig = {
         placeholder: 'Test',
         key: 'test',
         actionType: XcActionType.TEST,
-        type: XcType.Button
+        type: XcType.Button,
       },
       {
         label: 'Save',
         placeholder: 'Save',
         key: 'save',
         actionType: XcActionType.SUBMIT,
-        type: XcType.Button
-      }
+        type: XcType.Button,
+      },
     ],
     msgOnInstall:
-      'Successfully installed and attachment will be stored in Backblaze B2',
-    msgOnUninstall: ''
+      'Successfully configured! Attachments will now be stored in Backblaze B2.',
+    msgOnUninstall: '',
   },
-  category: 'Storage'
+  category: 'Storage',
 };
 
 export default config;

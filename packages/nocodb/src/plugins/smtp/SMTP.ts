@@ -1,8 +1,7 @@
-import { IEmailAdapter } from 'nc-plugin';
 import nodemailer from 'nodemailer';
-import Mail from 'nodemailer/lib/mailer';
-
-import { XcEmail } from '../../interface/IEmailAdapter';
+import type { IEmailAdapter } from '~/types/nc-plugin';
+import type Mail from 'nodemailer/lib/mailer';
+import type { XcEmail } from '~/interface/IEmailAdapter';
 
 export default class SMTP implements IEmailAdapter {
   private transporter: Mail;
@@ -14,18 +13,30 @@ export default class SMTP implements IEmailAdapter {
 
   public async init(): Promise<any> {
     const config = {
-      // from: this.input.from,
-      // options: {
+      name: this.input?.name,
       host: this.input?.host,
       port: parseInt(this.input?.port, 10),
-      secure: this.input?.secure === 'true',
-      ignoreTLS: this.input?.ignoreTLS === 'true',
-      auth: {
-        user: this.input?.username,
-        pass: this.input?.password
-      }
-      // }
+      secure:
+        typeof this.input?.secure === 'boolean'
+          ? this.input?.secure
+          : this.input?.secure === 'true',
+      ignoreTLS:
+        typeof this.input?.ignoreTLS === 'boolean'
+          ? this.input?.ignoreTLS
+          : this.input?.ignoreTLS === 'true',
+      tls: {
+        rejectUnauthorized: this.input?.rejectUnauthorized,
+      },
+      ...(this.input?.username || this.input?.password
+        ? {
+            auth: {
+              ...(this.input?.username ? { user: this.input?.username } : {}),
+              ...(this.input?.password ? { pass: this.input?.password } : {}),
+            },
+          }
+        : {}),
     };
+
     this.transporter = nodemailer.createTransport(config);
   }
 
@@ -35,39 +46,19 @@ export default class SMTP implements IEmailAdapter {
     }
   }
 
-  public async test(email): Promise<boolean> {
+  public async test(): Promise<boolean> {
     try {
       await this.mailSend({
-        to: email,
+        to: this.input.from,
         subject: 'Test email',
-        html: 'Test email'
+        html: 'Test email',
       } as any);
       return true;
     } catch (e) {
-      throw e;
+      console.log('SMTP test error :: ', e);
+      throw new Error(
+        'SMTP test failed, please check server log for more details.',
+      );
     }
   }
 }
-
-/**
- * @copyright Copyright (c) 2021, Xgene Cloud Ltd
- *
- * @author Naveen MR <oof1lab@gmail.com>
- * @author Pranav C Balan <pranavxc@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */

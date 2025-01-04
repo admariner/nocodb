@@ -1,12 +1,13 @@
-import { XcActionType, XcType } from 'nc-common';
-import { XcPluginConfig } from 'nc-plugin';
-
+import { XcActionType, XcType } from 'nocodb-sdk';
 import VultrPlugin from './VultrPlugin';
+import type { XcPluginConfig } from '~/types/nc-plugin';
 
 const config: XcPluginConfig = {
   builder: VultrPlugin,
-  title: 'Vultr Object Storage',
-  version: '0.0.1',
+  title: 'Vultr',
+  id: 'vultr',
+  recoveryTitle: 'Vultr Object Storage',
+  version: '0.0.4',
   logo: 'plugins/vultr.png',
   description:
     'Using Vultr Object Storage can give flexibility and cloud storage that allows applications greater flexibility and access worldwide.',
@@ -19,29 +20,36 @@ const config: XcPluginConfig = {
         label: 'Bucket Name',
         placeholder: 'Bucket Name',
         type: XcType.SingleLineText,
-        required: true
+        required: true,
       },
-      //   {
-      //   key: 'region',
-      //   label: 'Region',
-      //   placeholder: 'Region',
-      //   type: XcType.SingleLineText,
-      //   required: true
-      // },
+      {
+        key: 'hostname',
+        label: 'Host Name',
+        placeholder: 'e.g.: ewr1.vultrobjects.com',
+        type: XcType.SingleLineText,
+        required: true,
+      },
       {
         key: 'access_key',
         label: 'Access Key',
         placeholder: 'Access Key',
         type: XcType.SingleLineText,
-        required: true
+        required: true,
       },
       {
         key: 'access_secret',
         label: 'Access Secret',
         placeholder: 'Access Secret',
         type: XcType.Password,
-        required: true
-      }
+        required: true,
+      },
+      {
+        key: 'acl',
+        label: 'Access Control Lists (ACL)',
+        placeholder: 'Default set to public-read',
+        type: XcType.SingleLineText,
+        required: false,
+      },
     ],
     actions: [
       {
@@ -49,21 +57,21 @@ const config: XcPluginConfig = {
         placeholder: 'Test',
         key: 'test',
         actionType: XcActionType.TEST,
-        type: XcType.Button
+        type: XcType.Button,
       },
       {
         label: 'Save',
         placeholder: 'Save',
         key: 'save',
         actionType: XcActionType.SUBMIT,
-        type: XcType.Button
-      }
+        type: XcType.Button,
+      },
     ],
     msgOnInstall:
-      'Successfully installed and attachment will be stored in Vultr Object Storage',
-    msgOnUninstall: ''
+      'Successfully configured! Attachments will now be stored in Vultr Object Storage.',
+    msgOnUninstall: '',
   },
-  category: 'Storage'
+  category: 'Storage',
 };
 
 export default config;

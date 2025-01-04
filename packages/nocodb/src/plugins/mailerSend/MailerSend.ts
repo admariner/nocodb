@@ -1,7 +1,6 @@
-import { IEmailAdapter } from 'nc-plugin';
 import MailerSend, { EmailParams, Recipient } from 'mailersend';
-
-import { XcEmail } from '../../interface/IEmailAdapter';
+import type { IEmailAdapter } from '~/types/nc-plugin';
+import type { XcEmail } from '~/interface/IEmailAdapter';
 
 export default class Mailer implements IEmailAdapter {
   private mailersend: MailerSend;
@@ -13,7 +12,7 @@ export default class Mailer implements IEmailAdapter {
 
   public async init(): Promise<any> {
     this.mailersend = new MailerSend({
-      api_key: this.input?.api_key
+      api_key: this.input?.api_key,
     });
   }
 
@@ -39,7 +38,7 @@ export default class Mailer implements IEmailAdapter {
       await this.mailSend({
         to: email,
         subject: 'Test email',
-        html: 'Test email'
+        html: 'Test email',
       } as any);
       return true;
     } catch (e) {
@@ -47,26 +46,3 @@ export default class Mailer implements IEmailAdapter {
     }
   }
 }
-
-/**
- * @copyright Copyright (c) 2021, Xgene Cloud Ltd
- *
- * @author Naveen MR <oof1lab@gmail.com>
- * @author Pranav C Balan <pranavxc@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */

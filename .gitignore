@@ -2,8 +2,10 @@
 # ===========
 .DS_Store
 ehthumbs.db
-Icon?
 Thumbs.db
+Icon
+
+
 
 # Node and related ecosystem
 # ==========================
@@ -38,11 +40,16 @@ _site/
 *.pid
 *.gz
 *.tmp
+*.tmp.md
 *.bak
 *.swp
 logs/
 build/
 uploads/
+
+# Visual Studio Code
+# =========
+.vscode
 
 # Sublime editor
 # ==============
@@ -80,6 +87,14 @@ mongod
 /packages/nocodb/docker/main.js.LICENSE.txt
 /packages/nocodb/noco_log.db
 
-# Cypress
+# NC_DBs
 #=========
-shared.json
+nc_minimal_dbs/
+test_noco.db
+
+# ngrok config
+httpbin
+.run/test-debug.run.xml
+
+/packages/nc-secret-mgr/dist/index.js
+/packages/nc-secret-mgr/dist/index.js.map

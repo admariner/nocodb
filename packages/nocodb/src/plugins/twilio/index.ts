@@ -1,10 +1,10 @@
-import { XcActionType, XcType } from 'nc-common';
-import { XcPluginConfig } from 'nc-plugin';
-
+import { XcActionType, XcType } from 'nocodb-sdk';
 import TwilioPlugin from './TwilioPlugin';
+import type { XcPluginConfig } from '~/types/nc-plugin';
 
 const config: XcPluginConfig = {
   builder: TwilioPlugin,
+  id: 'twilio',
   title: 'Twilio',
   version: '0.0.1',
   logo: 'plugins/twilio.png',
@@ -21,22 +21,22 @@ const config: XcPluginConfig = {
         label: 'Account SID',
         placeholder: 'Account SID',
         type: XcType.SingleLineText,
-        required: true
+        required: true,
       },
       {
         key: 'token',
         label: 'Auth Token',
         placeholder: 'Auth Token',
         type: XcType.Password,
-        required: true
+        required: true,
       },
       {
         key: 'from',
         label: 'From Phone Number',
         placeholder: 'From Phone Number',
         type: XcType.SingleLineText,
-        required: true
-      }
+        required: true,
+      },
     ],
     actions: [
       {
@@ -44,20 +44,20 @@ const config: XcPluginConfig = {
         placeholder: 'Test',
         key: 'test',
         actionType: XcActionType.TEST,
-        type: XcType.Button
+        type: XcType.Button,
       },
       {
         label: 'Save',
         placeholder: 'Save',
         key: 'save',
         actionType: XcActionType.SUBMIT,
-        type: XcType.Button
-      }
+        type: XcType.Button,
+      },
     ],
     msgOnInstall:
       'Successfully installed and Twilio is enabled for notification.',
-    msgOnUninstall: ''
-  }
+    msgOnUninstall: '',
+  },
 };
 
 export default config;

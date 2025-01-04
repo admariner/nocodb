@@ -1,6 +1,7 @@
-import { Handler } from 'express';
-import * as e from 'express';
-import Knex from 'knex';
+import type { UserType } from 'nocodb-sdk';
+import type { Handler, Request } from 'express';
+import type * as e from 'express';
+import type { Knex } from 'knex';
 
 export interface Route {
   path: string;
@@ -20,7 +21,7 @@ export enum RouteType {
   PATCH = 'patch',
   DELETE = 'delete',
   HEAD = 'head',
-  OPTIONS = 'options'
+  OPTIONS = 'options',
 }
 
 type InflectionTypes =
@@ -200,7 +201,7 @@ export interface NcConfig {
   seedsFolder?: string | string[];
   queriesFolder?: string | string[];
   apisFolder?: string | string[];
-  projectType?: 'rest' | 'graphql' | 'grpc';
+  baseType?: 'rest' | 'graphql' | 'grpc';
   type?: 'mvc' | 'package' | 'docker';
   language?: 'ts' | 'js';
   meta?: {
@@ -259,7 +260,7 @@ export enum ServerlessType {
   ALIYUN = 'ALIYUN',
   ZEIT = 'ZEIT',
   LYRID = 'LYRID',
-  SERVERLESS = 'SERVERLESS'
+  SERVERLESS = 'SERVERLESS',
 }
 
 export class Result {
@@ -281,7 +282,7 @@ enum HTTPType {
   DELETE = 'delete',
   PATCH = 'patch',
   HEAD = 'head',
-  OPTIONS = 'options'
+  OPTIONS = 'options',
 }
 
 export interface XcRoute {
@@ -292,25 +293,51 @@ export interface XcRoute {
   isCustom?: boolean;
 }
 
-/**
- * @copyright Copyright (c) 2021, Xgene Cloud Ltd
- *
- * @author Naveen MR <oof1lab@gmail.com>
- * @author Pranav C Balan <pranavxc@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
+export interface AppConfig {
+  throttler: {
+    data?: {
+      ttl: number;
+      max_apis: number;
+    };
+    meta?: {
+      ttl: number;
+      max_apis: number;
+    };
+    public?: {
+      ttl: number;
+      max_apis: number;
+    };
+    calc_execution_time: boolean;
+  };
+  basicAuth: {
+    username: string;
+    password: string;
+  };
+  auth: {
+    emailPattern?: RegExp | null;
+    disableEmailAuth: boolean;
+  };
+  mainSubDomain: string;
+  dashboardPath: string;
+}
+
+export interface NcContext {
+  org_id?: string;
+  workspace_id: string;
+  base_id: string;
+}
+
+export interface NcRequest extends Partial<Request> {
+  context: NcContext;
+  ncWorkspaceId?: string;
+  ncBaseId?: string;
+  user: UserType & {
+    base_roles?: Record<string, boolean>;
+    workspace_roles?: Record<string, boolean>;
+    provider?: string;
+  };
+  ncSiteUrl: string;
+  dashboardUrl: string;
+  clientIp?: string;
+  query?: Record<string, any>;
+}

@@ -1,10 +1,10 @@
-import { XcActionType, XcType } from 'nc-common';
-import { XcPluginConfig } from 'nc-plugin';
-
+import { XcActionType, XcType } from 'nocodb-sdk';
 import DiscordPlugin from './DiscordPlugin';
+import type { XcPluginConfig } from '~/types/nc-plugin';
 
 const config: XcPluginConfig = {
   builder: DiscordPlugin,
+  id: 'discord',
   title: 'Discord',
   version: '0.0.1',
   logo: 'plugins/discord.png',
@@ -22,15 +22,15 @@ const config: XcPluginConfig = {
         label: 'Channel Name',
         placeholder: 'Channel Name',
         type: XcType.SingleLineText,
-        required: true
+        required: true,
       },
       {
         key: 'webhook_url',
         label: 'Webhook URL',
         type: XcType.Password,
         placeholder: 'Webhook URL',
-        required: true
-      }
+        required: true,
+      },
     ],
     actions: [
       {
@@ -38,20 +38,20 @@ const config: XcPluginConfig = {
         placeholder: 'Test',
         key: 'test',
         actionType: XcActionType.TEST,
-        type: XcType.Button
+        type: XcType.Button,
       },
       {
         label: 'Save',
         placeholder: 'Save',
         key: 'save',
         actionType: XcActionType.SUBMIT,
-        type: XcType.Button
-      }
+        type: XcType.Button,
+      },
     ],
     msgOnInstall:
       'Successfully installed and Discord is enabled for notification.',
-    msgOnUninstall: ''
-  }
+    msgOnUninstall: '',
+  },
 };
 
 export default config;
